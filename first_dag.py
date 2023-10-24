@@ -1,11 +1,10 @@
-from datetime import datetime, timedelta
-import pytz
+from datetime import datetime, timedelta, timezone
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 
 default_args = {
     'owner': 'admin',
-    'start_date': datetime(2023, 10, 24, 17, 00, tzinfo=pytz.timezone('Europe/Moscow')),
+    'start_date': datetime(2023, 10, 24, 17, 5, tzinfo=timezone(timedelta(hours=3))),
     'retries': 1,
 }
 
