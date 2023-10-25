@@ -23,7 +23,7 @@ with DAG(
     # )
 
     b_dog_task_1 = PythonOperator(
-        task_id='b_dog_second_task',
+        task_id='b_dog_first_task',
         python_callable=lambda: print('first b_dog task'),
         dag=b_dog,
     )

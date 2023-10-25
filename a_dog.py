@@ -16,7 +16,7 @@ with DAG(
         catchup=False,
 ) as a_dog:
     a_dog_task_1 = PythonOperator(
-        task_id='a_dog_third_task',
+        task_id='a_dog_first_task',
         python_callable=lambda: print('first a_dog task'),
         dag=a_dog
     )
