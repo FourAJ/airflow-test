@@ -28,19 +28,41 @@ with DAG(
     schedule=timedelta(minutes=1),
     catchup=False,
 ) as b_dog:
+    b_dog_task_1 = PythonOperator(
+        task_id='two_b_dog_first_task',
+        python_callable=lambda: print('first b_dog task'),
+        dag=b_dog,
+    )
+
+with DAG(
+    dag_id='two_c_dog',
+    default_args=default_args,
+    schedule=timedelta(minutes=1),
+    catchup=False,
+) as c_dog:
     sensor_a = ExternalTaskSensor(
-        task_id='external_task_sensor',
+        task_id='external_task_sensor_a',
         poke_interval=1,
         timeout=180,
         soft_fail=False,
         retries=2,
         external_task_id='two_a_dog_first_task',
         external_dag_id='two_a_dog',
-        dag=b_dog
+        dag=c_dog
+    )
+    sensor_b = ExternalTaskSensor(
+        task_id='external_task_sensor_b',
+        poke_interval=1,
+        timeout=180,
+        soft_fail=False,
+        retries=2,
+        external_task_id='two_b_dog_first_task',
+        external_dag_id='two_b_dog',
+        dag=c_dog
     )
     task_b_dog = EmptyOperator(
         task_id='task_b',
-        dag=b_dog
+        dag=c_dog
     )
-    sensor_a >> task_b_dog
+    sensor_a >> sensor_b >> task_b_dog
 
