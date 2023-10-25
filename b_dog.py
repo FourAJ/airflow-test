@@ -21,7 +21,7 @@ with DAG(
     b_dog_task_1 = ExternalTaskSensor(
         task_id='b_dog_first_task',
         external_dag_id='a_dog',
-        external_task_id='a_dog_trigger_b_dog_task',
+        external_task_id='a_dog_third_task',
         dag=b_dog
     )
 
