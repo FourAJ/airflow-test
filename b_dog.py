@@ -16,7 +16,7 @@ with DAG(
     catchup=False,
 ) as b_dog:
     def first_python_task():
-        print("first a_dog task")
+        print("second b_dog task")
 
     b_dog_task_1 = ExternalTaskSensor(
         task_id='b_dog_first_task',
@@ -26,7 +26,7 @@ with DAG(
     )
 
     b_dog_task_2 = PythonOperator(
-        task_id='a_dog_task_2',
+        task_id='b_dog_second_task',
         python_callable=first_python_task,
         dag=b_dog,
     )
