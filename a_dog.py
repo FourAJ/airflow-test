@@ -25,6 +25,7 @@ with DAG(
         task_id='a_dog_trigger_b_dog_task',
         trigger_dag_id='b_dog',
         trigger_run_id='b_dog_first_task',
+        execution_date=datetime.now(tz=timezone(timedelta(hours=3))),
         dag=a_dog,
     )
 
