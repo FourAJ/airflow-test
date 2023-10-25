@@ -34,4 +34,3 @@ with DAG(
     )
 
     a_dog_task_1 >> a_dog_task_2 >> a_dog_task_3
-    # a_dog_task_1 >> a_dog_task_3
