@@ -34,6 +34,4 @@ with DAG(
         dag=b_dog,
     )
 
-
-
-
+b_dog_task_1 >> a_dog_task_1
