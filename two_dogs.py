@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta, timezone
 from airflow import DAG
 from airflow.operators.python import PythonOperator
+from airflow.sensors.external_task import ExternalTaskSensor
 
 default_args = {
     'owner': 'admin',
@@ -17,7 +18,7 @@ with DAG(
     a_dog_task_1 = PythonOperator(
         task_id='two_a_dog_first_task',
         python_callable=lambda: print('first a_dog task'),
-        dag=a_dog
+        dag=a_dog,
     )
 
 with DAG(
@@ -26,10 +27,11 @@ with DAG(
     schedule=None,
     catchup=False,
 ) as b_dog:
-    b_dog_task_1 = PythonOperator(
+    b_dog_task_1 = ExternalTaskSensor(
         task_id='two_b_dog_first_task',
-        python_callable=lambda: print('first b_dog task'),
-        dag=b_dog
+        external_dag_id='two_a_dog',
+        external_task_id='two_a_dog_first_task',
+        dag=b_dog,
     )
 
 
