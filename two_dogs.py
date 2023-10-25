@@ -6,14 +6,14 @@ from airflow.sensors.external_task import ExternalTaskSensor
 
 default_args = {
     'owner': 'admin',
-    'start_date': datetime(2023, 10, 25, 11, 00, tzinfo=timezone(timedelta(hours=3))),
+    'start_date': datetime(2023, 10, 25, 14, 00, tzinfo=timezone(timedelta(hours=3))),
     'retries': 1,
 }
 
 with DAG(
     dag_id='two_a_dog',
     default_args=default_args,
-    schedule=None,
+    schedule=timedelta(minutes=1),
     catchup=False,
 ) as a_dog:
     a_dog_task_1 = PythonOperator(
@@ -25,12 +25,12 @@ with DAG(
 with DAG(
     dag_id='two_b_dog',
     default_args=default_args,
-    schedule=None,
+    schedule=timedelta(minutes=1),
     catchup=False,
 ) as b_dog:
     sensor_a = ExternalTaskSensor(
         task_id='external_task_sensor',
-        poke_interval=60,
+        poke_interval=1,
         timeout=180,
         soft_fail=False,
         retries=2,
