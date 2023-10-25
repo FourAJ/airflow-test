@@ -6,7 +6,7 @@ from airflow.sensors.external_task import ExternalTaskSensor
 
 default_args = {
     'owner': 'admin',
-    'start_date': datetime(2023, 10, 25, 14, 6, tzinfo=timezone(timedelta(hours=3))),
+    'start_date': datetime(2023, 10, 25, 14, 15, tzinfo=timezone(timedelta(hours=3))),
     'retries': 1,
 }
 
