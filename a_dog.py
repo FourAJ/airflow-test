@@ -25,12 +25,12 @@ with DAG(
         dag=a_dog,
     )
 
-    a_dog_task_2 = TriggerDagRunOperator(
-        task_id='a_dog_trigger_b_dog_task',
-        trigger_dag_id='b_dog',
-        trigger_run_id='b_dog_first_task',
-        dag=a_dog,
-    )
+    # a_dog_task_2 = TriggerDagRunOperator(
+    #     task_id='a_dog_trigger_b_dog_task',
+    #     trigger_dag_id='b_dog',
+    #     trigger_run_id='b_dog_first_task',
+    #     dag=a_dog,
+    # )
 
     a_dog_task_3 = PythonOperator(
         task_id='a_dog_third_task',
@@ -38,4 +38,5 @@ with DAG(
         dag=a_dog
     )
 
-    a_dog_task_1 >> a_dog_task_2 >> a_dog_task_3
+    # a_dog_task_1 >> a_dog_task_2 >> a_dog_task_3
+    a_dog_task_1 >> a_dog_task_3
