@@ -15,19 +15,22 @@ with DAG(
     schedule=None,
     catchup=False,
 ) as b_dog:
-    def first_python_task():
-        print("second b_dog task")
+    # b_dog_task_1 = ExternalTaskSensor(
+    #     task_id='b_dog_first_task',
+    #     external_dag_id='a_dog',
+    #     external_task_id='a_dog_third_task',
+    #     dag=b_dog
+    # )
 
-    b_dog_task_1 = ExternalTaskSensor(
-        task_id='b_dog_first_task',
-        external_dag_id='a_dog',
-        external_task_id='a_dog_third_task',
-        dag=b_dog
+    b_dog_task_1 = PythonOperator(
+        task_id='b_dog_second_task',
+        python_callable=lambda: print('first b_dog task'),
+        dag=b_dog,
     )
 
     b_dog_task_2 = PythonOperator(
         task_id='b_dog_second_task',
-        python_callable=first_python_task,
+        python_callable=lambda: print('second b_dog task'),
         dag=b_dog,
     )
 
