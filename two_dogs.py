@@ -6,7 +6,7 @@ from airflow.sensors.external_task import ExternalTaskSensor
 
 default_args = {
     'owner': 'admin',
-    'start_date': datetime(2023, 10, 25, 14, 19, tzinfo=timezone(timedelta(hours=3))),
+    'start_date': datetime(2023, 10, 25, 14, 23, tzinfo=timezone(timedelta(hours=3))),
     'retries': 1,
 }
 
@@ -43,7 +43,7 @@ with DAG(
     sensor_a = ExternalTaskSensor(
         task_id='external_task_sensor_a',
         poke_interval=1,
-        timeout=60,
+        timeout=15,
         soft_fail=False,
         retries=2,
         external_task_id='three_a_dog_first_task',
@@ -53,7 +53,7 @@ with DAG(
     sensor_b = ExternalTaskSensor(
         task_id='external_task_sensor_b',
         poke_interval=1,
-        timeout=180,
+        timeout=15,
         soft_fail=False,
         retries=2,
         external_task_id='three_b_dog_first_task',
