@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta, timezone
 from airflow import DAG
 from airflow.operators.python import PythonOperator
+from airflow.operators.empty import EmptyOperator
 from airflow.sensors.external_task import ExternalTaskSensor
 
 default_args = {
@@ -27,13 +28,18 @@ with DAG(
     schedule=None,
     catchup=False,
 ) as b_dog:
-    b_dog_task_1 = ExternalTaskSensor(
-        task_id='two_b_dog_first_task',
+    sensor_a = ExternalTaskSensor(
+        task_id='wait_for_a',
         external_dag_id='two_a_dog',
         external_task_id='two_a_dog_first_task',
-        mode='poke',
-        timeout=60,
-        poke_interval=1,
+        poke_interval=60,
+        timeout=3600,
+        mode="reschedule",
         dag=b_dog,
     )
+    task_b_dog = EmptyOperator(
+        task_id='task_b',
+        dag=b_dog
+    )
+    sensor_a >> task_b_dog
 
