@@ -31,7 +31,8 @@ with DAG(
         task_id='two_b_dog_first_task',
         external_dag_id='two_a_dog',
         external_task_id='two_a_dog_first_task',
+        mode='reschedule',
+        timeout=120,
         dag=b_dog,
     )
 
-b_dog_task_1 >> a_dog_task_1
