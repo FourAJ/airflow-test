@@ -29,13 +29,14 @@ with DAG(
     catchup=False,
 ) as b_dog:
     sensor_a = ExternalTaskSensor(
-        task_id='wait_for_a',
-        external_dag_id='two_a_dog',
-        external_task_id='two_a_dog_first_task',
+        task_id='external_task_sensor',
         poke_interval=60,
-        timeout=3600,
-        mode="reschedule",
-        dag=b_dog,
+        timeout=180,
+        soft_fail=False,
+        retries=2,
+        external_task_id='two_a_dog_first_task',
+        external_dag_id='two_a_dog',
+        dag=b_dog
     )
     task_b_dog = EmptyOperator(
         task_id='task_b',
