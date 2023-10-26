@@ -48,11 +48,11 @@ with DAG(
     #     ssh_hook.get_conn().exec_command('shuffle <3')
     #     ...
 
-    b_dog_task_4 = PythonOperator(
-        task_id='b_dog_python_shh_task',
-        python_callable=b_dog_ssh_hook,
-        dag=b_dog,
-    )
+    # b_dog_task_4 = PythonOperator(
+    #     task_id='b_dog_python_shh_task',
+    #     python_callable=b_dog_ssh_hook,
+    #     dag=b_dog,
+    # )
 
     # b_dog_task_3 = SSHOperator(
     #     task_id='b_dog_ssh_task',
