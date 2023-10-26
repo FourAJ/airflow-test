@@ -7,69 +7,51 @@ from airflow.sensors.external_task import ExternalTaskSensor
 
 default_args = {
     'owner': 'admin',
-    'start_date': datetime(2023, 10, 25, 16, 51, tzinfo=timezone(timedelta(hours=3))),
+    'start_date': datetime(2023, 10, 26, 12, 50, tzinfo=timezone(timedelta(hours=3))),
     'retries': 1,
 }
 
 with DAG(
-    dag_id='three_a_dog',
+    dag_id='a_new_dog_a',
     default_args=default_args,
-    schedule=timedelta(minutes=2),
+    schedule=timedelta(minutes=1, seconds=15),
+    # schedule=None,
     catchup=False,
 ) as a_dog:
-    def a_dog_func():
-        time.sleep(60)
-        print('first b_dog task access')
+
     a_dog_task_1 = PythonOperator(
-        task_id='three_a_dog_first_task',
-        python_callable=a_dog_func,
+        task_id='start',
+        python_callable=lambda : print('start'),
         dag=a_dog,
     )
 
-with DAG(
-    dag_id='three_b_dog',
-    default_args=default_args,
-    schedule=timedelta(minutes=2),
-    catchup=False,
-) as b_dog:
-    def b_dog_func():
-        time.sleep(30)
-        print('first b_dog task access')
-    b_dog_task_1 = PythonOperator(
-        task_id='three_b_dog_first_task',
-        python_callable=b_dog_func,
-        dag=b_dog,
+    a_dog_task_2 = PythonOperator(
+        task_id='end',
+        python_callable=lambda : print('end'),
+        dag=a_dog,
     )
+    a_dog_task_1 >> a_dog_task_2
 
 with DAG(
-    dag_id='three_c_dog',
+    dag_id='a_new_dog_b',
     default_args=default_args,
-    schedule=timedelta(minutes=2),
+    schedule=timedelta(minutes=5),
     catchup=False,
-) as c_dog:
+) as b_dog:
     sensor_a = ExternalTaskSensor(
         task_id='external_task_sensor_a',
-        poke_interval=1,
-        timeout=90,
+        poke_interval=5,
         soft_fail=False,
-        retries=2,
-        external_task_id='three_a_dog_first_task',
-        external_dag_id='three_a_dog',
-        dag=c_dog
-    )
-    sensor_b = ExternalTaskSensor(
-        task_id='external_task_sensor_b',
-        poke_interval=1,
-        timeout=90,
-        soft_fail=False,
-        retries=2,
-        external_task_id='three_b_dog_first_task',
-        external_dag_id='three_b_dog',
-        dag=c_dog
+        timeout=300,
+        retries=10,
+        execution_delta=timedelta(seconds=30),
+        external_task_id='end',
+        external_dag_id='a_new_dog_a',
+        dag=b_dog
     )
     task_b_dog = EmptyOperator(
-        task_id='task_c',
-        dag=c_dog
+        task_id='task_b',
+        dag=b_dog
     )
-    [sensor_a, sensor_b] >> task_b_dog
+    sensor_a >> task_b_dog
 
