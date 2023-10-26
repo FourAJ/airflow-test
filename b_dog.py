@@ -1,8 +1,8 @@
 from datetime import datetime, timedelta, timezone
 from airflow import DAG
 from airflow.operators.python import PythonOperator
-from airflow.providers.ssh.hooks.ssh import SSHHook
-from airflow.providers.ssh.operators.ssh import SSHOperator
+# from airflow.providers.ssh.hooks.ssh import SSHHook
+# from airflow.providers.ssh.operators.ssh import SSHOperator
 from airflow.sensors.external_task import ExternalTaskSensor
 
 default_args = {
