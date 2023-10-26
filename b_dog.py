@@ -36,17 +36,17 @@ with DAG(
         dag=b_dog,
     )
 
-    ssh_hook = SSHHook(
-        ssh_conn_id='',
-        remote_host='',
-        username='',
-        password=''
-    )
+    # ssh_hook = SSHHook(
+    #     ssh_conn_id='',
+    #     remote_host='',
+    #     username='',
+    #     password=''
+    # )
 
-    def b_dog_ssh_hook():
-        ...
-        ssh_hook.get_conn().exec_command('shuffle <3')
-        ...
+    # def b_dog_ssh_hook():
+    #     ...
+    #     ssh_hook.get_conn().exec_command('shuffle <3')
+    #     ...
 
     b_dog_task_4 = PythonOperator(
         task_id='b_dog_python_shh_task',
@@ -54,11 +54,11 @@ with DAG(
         dag=b_dog,
     )
 
-    b_dog_task_3 = SSHOperator(
-        task_id='b_dog_ssh_task',
-        ssh_hook=ssh_hook,
-        command='...',
-        dag=b_dog,
-    )
+    # b_dog_task_3 = SSHOperator(
+    #     task_id='b_dog_ssh_task',
+    #     ssh_hook=ssh_hook,
+    #     command='...',
+    #     dag=b_dog,
+    # )
 
     b_dog_task_1 >> b_dog_task_2
